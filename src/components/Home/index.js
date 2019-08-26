@@ -62,7 +62,6 @@ class Home extends Component{
                         if(index < 15){
                             return( 
                                 <>
-                                <FavoriteIcon/>
                                 <img src={`${imageUrl}${posterSize.w185}/${movie.poster_path}`} alt={`poster${index}`}/>
                                 </>
                             )

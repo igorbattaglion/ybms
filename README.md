@@ -36,10 +36,10 @@ npm install
 
 Use the following command to run in development mode:
 
-    ```bash
-    npm start   or
-    yarn start
-    ```
+```bash
+npm start   or
+yarn start
+```
 
 By default the server will run in `http://localhost:3001`
 

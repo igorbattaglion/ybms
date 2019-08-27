@@ -1,0 +1,62 @@
+@mixin flexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home{
+
+    .banners {
+        @include flexCenter();
+        flex-direction: row;
+        width: 100%;
+
+        .top-1{
+            @include flexCenter();
+            flex-direction: column;
+            margin: 15px;
+
+            span {
+                color: $tertiaryColor;
+                font-size: 20px;
+            }
+        }
+
+        img {
+            border-radius: 10px;
+            box-shadow: $boxShadow;
+        }
+    }
+
+    .change-action{
+        @include flexCenter();
+        margin: 20px;
+
+        .MuiFormGroup-root{
+            flex-direction: row;
+            color: $tertiaryColor;
+        }
+    }
+
+    .list-title {
+        @include flexCenter();
+        margin: 20px;
+        
+        span {
+            font-size: 20px;
+            color: $tertiaryColor;
+        }
+    }
+
+    .list {
+        @include flexCenter();
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        img {
+            border-radius: 10px;
+            margin: 5px;
+            box-shadow: $boxShadow;
+        }
+    }
+}

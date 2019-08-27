@@ -1,18 +1,21 @@
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
+import React, { Component, Fragment } from 'react';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Creators as ConfigActions } from '../../store/ducks/config'
 import { Creators as MoviesActions } from '../../store/ducks/movies'
 import { Creators as SeriesActions } from '../../store/ducks/series'
-import FavoriteIcon from '@material-ui/icons/Favorite';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 class Home extends Component{
     constructor(props){
         super(props)
         this.state = {
-
+            listType: 'movies'
         }
     }
 
@@ -24,8 +27,8 @@ class Home extends Component{
     }
 
     render(){
-    console.log(this.props.series)
     const { config, movies, series } = this.props
+    const { listType } = this.state
     const imageUrl = config.data ? config.data.images.secure_base_url : '';
     const posterSize = config.data ? {
         w92      : config.data.images.poster_sizes[0],
@@ -53,25 +56,73 @@ class Home extends Component{
                     </>
                 }
             </div>
-            <div className={'list-title'}>
-                <span>Top 15 Movie list:</span>
+            <div className={'change-action'}>
+                <FormControl component="fieldset">
+                    <RadioGroup
+                        aria-label="gender"
+                        name="gender2"
+                        value={listType}
+                        onChange={(e)=> this.setState({ listType: e.target.value })}
+                    >
+                        <FormControlLabel
+                            value="movies"
+                            control={<Radio color="primary" />}
+                            label="Movies"
+                            labelPlacement="start"
+                        />
+                        <FormControlLabel
+                            value="series"
+                            control={<Radio color="primary" />}
+                            label="Series"
+                            labelPlacement="start"
+                        />
+                    </RadioGroup>
+                </FormControl>
             </div>
-            <div className={'list'}>
-                { config.data && !movies.loading &&
-                    movies.data.results.map((movie, index)=>{
-                        if(index < 15){
-                            return( 
-                                <>
-                                <img src={`${imageUrl}${posterSize.w185}/${movie.poster_path}`} alt={`poster${index}`}/>
-                                </>
-                            )
-                        } else {
-                            return;
-                        }
-                    })
-                }
-            </div>
-            
+            { listType === 'movies' &&
+            <>
+                <div className={'list-title'}>
+                    <span>Top 15 Movie list:</span>
+                </div>
+                <div className={'list'}>
+                    { config.data && !movies.loading &&
+                        movies.data.results.map((movie, index)=>{
+                            if(index < 15){
+                                return( 
+                                    <Fragment key={`poster${index}`}>
+                                    <img src={`${imageUrl}${posterSize.w185}/${movie.poster_path}`}  alt={`poster${index}`}/>
+                                    </Fragment>
+                                )
+                            } else {
+                                return '';
+                            }
+                        })
+                    }
+                </div>
+            </>
+            }
+            { listType === 'series' &&
+            <>
+                <div className={'list-title'}>
+                    <span>Top 15 Series list:</span>
+                </div>
+                <div className={'list'}>
+                    { config.data && !series.loading &&
+                        series.data.results.map((series, index)=>{
+                            if(index < 15){
+                                return( 
+                                    <Fragment key={`poster${index}`}>
+                                    <img src={`${imageUrl}${posterSize.w185}/${series.poster_path}`}  alt={`poster${index}`}/>
+                                    </Fragment>
+                                )
+                            } else {
+                                return '';
+                            }
+                        })
+                    }
+                </div>
+            </>
+            }
 
         </div>
     )
